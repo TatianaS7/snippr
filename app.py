@@ -23,6 +23,17 @@ def getAllSnippets():
         return jsonify({'error': str(e)}), 500
 
 
+# Get a Snippet (by id)
+@app.route('/snippet/<id>', methods=['GET'])
+def getSnippet(id):
+    try:
+        snippet = snippet_data[int(id)]
+        return jsonify(snippet)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+
 
 
 
