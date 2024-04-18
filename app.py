@@ -12,6 +12,15 @@ app = Flask(__name__)
 seedDataToDB()
 
 
+# ROUTES
+
+# Get All Snippets
+@app.route('/snippet', methods=['GET'])
+def getAllSnippets():
+    try:
+        return jsonify(snippet_data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 
