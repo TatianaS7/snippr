@@ -1,5 +1,5 @@
 # Import Dependencies
-from flask import Flask, request, jsonify
+from flask import Flask
 from main import seedDataToDB
 from user import user
 from snippet import snippet
