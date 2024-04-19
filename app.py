@@ -3,6 +3,11 @@ from flask import Flask
 from main import seedDataToDB
 from user import user
 from snippet import snippet
+from dotenv import find_dotenv, load_dotenv
+
+ENV_FILE = find_dotenv()
+if ENV_FILE:
+    load_dotenv(ENV_FILE)
 
 
 # Create instance of App
