@@ -1,1 +1,4 @@
+users = {}
+
 snippet_data = {}
+
