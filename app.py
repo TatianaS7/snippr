@@ -1,7 +1,8 @@
 # Import Dependencies
 from flask import Flask, request, jsonify
-from database import snippet_data
 from main import seedDataToDB
+from user import user
+from snippet import snippet
 
 
 # Create instance of App
@@ -12,48 +13,11 @@ app = Flask(__name__)
 seedDataToDB()
 
 
-
-# ROUTES
-next_id = 9
-
-# Get All Snippets
-@app.route('/snippet', methods=['GET'])
-def getAllSnippets():
-    try:
-        return jsonify(snippet_data)
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+# Routes
+app.register_blueprint(user, url_prefix="/users")
+app.register_blueprint(snippet, url_prefix="/snippet")
 
 
-# Get a Snippet (by id)
-@app.route('/snippet/<id>', methods=['GET'])
-def getSnippet(id):
-    try:
-        snippet = snippet_data[int(id)]
-        return jsonify(snippet)
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-
-# Create a Snippet
-@app.route('/snippet', methods=['POST'])
-def createSnippet():
-    try:
-        global next_id
-        data = request.json
-
-        if 'language' not in data or 'code' not in data:
-            return jsonify({'error': 'Missing language or code'}), 400
-        
-        new_snippet = {
-            'language': data['language'], 
-            'code': data['code']
-        }
-        snippet_data[next_id] = new_snippet
-        next_id += 1
-        return jsonify(new_snippet), 201
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
 
 
 
