@@ -1,12 +1,15 @@
-from seed_data import seed_snippets
 from database import snippet_data
 from snippet import f
+import json
 
 next_id = 1
 
 def seedDataToDB():
     global next_id
-    for snippet in seed_snippets:
+
+    with open("seed_data.json", "r") as s:
+        data = json.load(s)
+    for snippet in data:
         snippet_data[next_id] = {
             'id': next_id,
             'language': snippet['language'],
