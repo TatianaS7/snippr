@@ -18,12 +18,14 @@ def getAllSnippets():
     try:
         # Figure out how to decrypt without reassigning the code value completely. 
         # This is whats causing an error when you switch between getting all snippets and getting a specific snippet by id  
+        if len(snippet_data) == 0:
+            return jsonify({'error': 'No snippets available'})
+        
+        for id in snippet_data:
+            snippet = snippet_data[id]
 
-        # for id in snippet_data:
-        #     snippet = snippet_data[id]
-
-        #     decrypted_code = f.decrypt(snippet['code']).decode()
-        #     snippet['code'] = decrypted_code
+            decrypted_code = f.decrypt(snippet['code']).decode()
+            snippet['code'] = decrypted_code
 
         return jsonify(snippet_data)
     except Exception as e:
@@ -35,11 +37,12 @@ def getAllSnippets():
 def getSnippet(id):
     try:
         snippet = snippet_data[id]
+        copy = snippet.copy()
         
-        decrypted_code = f.decrypt(snippet['code']).decode()
-        snippet['code'] = decrypted_code
+        decrypted_code = f.decrypt(copy['code'].encode()).decode()
+        copy['code'] = decrypted_code
 
-        return jsonify(snippet)
+        return jsonify(copy)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
