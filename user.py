@@ -99,3 +99,8 @@ def getUser():
     else:
         return jsonify({'id': user_info['id'],'email': user_info['email']})
 
+
+# Get All Users
+@user.route('/all', methods=['GET'])
+def getAllUsers():
+    return jsonify(users)

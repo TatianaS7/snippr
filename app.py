@@ -1,6 +1,6 @@
 # Import Dependencies
 from flask import Flask
-from main import seedDataToDB
+from main import seedDataToDB, seedUsers
 from user import user
 from snippet import snippet
 from dotenv import find_dotenv, load_dotenv
@@ -16,6 +16,7 @@ app = Flask(__name__)
 
 # Runs Function to Seed Data
 seedDataToDB()
+seedUsers()
 
 
 # Routes
