@@ -73,8 +73,29 @@ def login():
         token = jwt.encode({'email': email, 'password': password }, JWT_SECRET)
         return jsonify({'success': token})
 
-    
-# Get All Users
-@user.route('/all', methods=['GET'])
-def getUsers():
-    return jsonify(users)
+
+# Get a User
+@user.route('/', methods=['GET'])
+def getUser():
+    email = request.json.get('email')
+    password = request.json.get('password')
+
+    if not email or not password:
+        return jsonify({'error': 'Email and password required'}), 400
+
+    userID = None
+    for user_id, user_info in users.items():
+        if user_info['email'] == email:
+            userID = user_id
+            break
+
+    if userID is None:
+        return jsonify({'error': 'User not found'}), 401
+
+    hashedPassword = users[userID]['password'].encode('utf-8')
+
+    if not bcrypt.checkpw(password.encode('utf-8'), hashedPassword):
+        return jsonify({'error': 'Incorrect Password'}), 401
+    else:
+        return jsonify({'id': user_info['id'],'email': user_info['email']})
+
